@@ -14,6 +14,7 @@ import {AuthService} from '../../auth/auth.service';
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit, OnDestroy {
+  topics: string[] = ['Sport', 'Food', 'Gaming', 'Shopping', 'Vacations', 'Technology', 'Other'];
   enteredTitle = '';
   enteredContent = '';
   post: Post;
@@ -37,6 +38,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     );
 
     this.form = new FormGroup({
+      topic: new FormControl(null, {validators: [Validators.required]}),
       title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       content: new FormControl(null, {validators: [Validators.required]}),
       image: new FormControl(null, {validators: [Validators.required], asyncValidators:[mimeType]})
@@ -51,13 +53,17 @@ export class PostCreateComponent implements OnInit, OnDestroy {
           this.postsService.getPost(this.postId).subscribe(postData => {
             this.isLoading = false;
             this.post = {
+              topic: postData.topic,
               id: postData._id,
               title: postData.title,
               content: postData.content,
               imagePath: postData.imagePath,
-              creator: postData.creator
+              creator: postData.creator,
+              creatorUsername: postData.creatorUsername,
+              likes: postData.likes
             };
             this.form.setValue({
+              topic: this.post.topic,
               title: this.post.title,
               content: this.post.content,
               image: this.post.imagePath
@@ -77,10 +83,11 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.postsService.addPost(this.form.value.title, this.form.value.content, this.form.value.image);
+      this.postsService.addPost(this.form.value.topic, this.form.value.title, this.form.value.content, this.form.value.image);
     } else {
       this.postsService.updatePost(
         this.postId,
+        this.form.value.topic,
         this.form.value.title,
         this.form.value.content,
         this.form.value.image

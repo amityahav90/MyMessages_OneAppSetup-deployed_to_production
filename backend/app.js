@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
+const likesRoutes = require('./routes/likes');
 const app = express();
 
 mongoose.connect(
@@ -16,12 +17,12 @@ mongoose.connect(
     console.log('Connected to database!');
 })
   .catch(() => {
-    console.log('Connected failed...');
+    console.log('Connection failed...');
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join('backend/images')));
 app.use('/', express.static(path.join(__dirname, 'angular')));
 
 // Headers setup //
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/like", likesRoutes);
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'angular', 'index.html'));
 });

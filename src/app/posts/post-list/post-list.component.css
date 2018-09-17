@@ -13,12 +13,87 @@ mat-spinner {
 
 mat-paginator {
   margin-top: 1rem;
+
 }
 
 .post-image {
-  width: 100%;
+  width: 75%;
+  margin-left: 12%;
 }
 
 .post-image img {
   width: 100%;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.5);}
+
+.new-post {
+  position: relative;
+  left: 45%;
+  margin-bottom: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  /*padding: 20px;*/
+}
+
+.left {
+  width: 20%;
+}
+
+.right {
+  width: 80%;
+}
+
+.inner-left {
+  width: 70%;
+}
+
+.inner-right {
+  width: 30%;
+}
+
+.right-inner {
+  width: 30%;
+}
+
+.left-inner {
+  width: 70%;
+  margin-left: 15%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.filterHeader {
+  text-align: center;
+}
+
+.clear-btn {
+  margin-top: 15%;
+  margin-bottom: 30px;
+  position: relative;
+  left: 29%;
+}
+
+.space {
+  border-left: 1px solid #D0D4D9;
+}
+
+.createdBy {
+  display: inline-block;
+  font-style: italic;
+}
+
+.like-btn, .likes-counter {
+  display: inline-block;
+  float: right;
+}

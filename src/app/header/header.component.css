@@ -10,6 +10,18 @@ a {
   color: white;
 }
 
+.logo {
+  margin-left: 100px;
+}
+
+.signup {
+  margin-right: 100px;
+}
+
+.logout {
+  margin-right: 100px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }

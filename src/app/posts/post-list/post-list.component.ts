@@ -4,7 +4,8 @@ import { PageEvent } from '@angular/material';
 
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
-import {AuthService} from '../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-post-list',
@@ -12,16 +13,28 @@ import {AuthService} from '../../auth/auth.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy {
+  // topics: string[] = ['Show All', 'Sport', 'Food', 'Gaming', 'Shopping', 'Vacations', 'Technology', 'Other'];
+  topics: any[] = [
+    { value: 'Sport', viewValue: 'Sport' },
+    { value: 'Food', viewValue: 'Food' },
+    { value: 'Gaming', viewValue: 'Gaming' },
+    { value: 'Shopping', viewValue: 'Shopping' },
+    { value: 'Vacations', viewValue: 'Vacations' },
+    { value: 'Technology', viewValue: 'Technology' },
+    { value: 'Other', viewValue: 'Other' },
+  ];
+  selectedTopics: Array<string> = [];
   posts: Post[] = [];
   isLoading = false;
   totalPosts = 0;
-  postsPerPage = 2;
+  postsPerPage = 10;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   userIsAuthenticated = false;
   userId: string;
   private subscription: Subscription;
   private authStatusSub: Subscription;
+  private usernameSub: Subscription;
 
   constructor(private postsService: PostsService, private authService: AuthService) { }
 
@@ -60,6 +73,28 @@ export class PostListComponent implements OnInit, OnDestroy {
       }, () => {
         this.isLoading = false;
       });
+  }
+
+  onSelectTopic(event) {
+    const currentSelection = event.option.value;
+    if (this.selectedTopics.includes(currentSelection)) {
+      this.selectedTopics.splice(this.selectedTopics.indexOf(currentSelection), 1);
+      this.postsService.getPosts(this.postsPerPage, this.currentPage, this.selectedTopics.toString());
+      // this.postsService.getPosts(this.postsPerPage, this.currentPage);
+    } else {
+      this.selectedTopics.push(currentSelection);
+      // this.postsService.getPosts(this.postsPerPage, this.currentPage, currentSelection);
+      this.postsService.getPosts(this.postsPerPage, this.currentPage, this.selectedTopics.toString());
+    }
+  }
+
+  onClearAll(topicList: any) {
+    topicList.deselectAll();
+    this.postsService.getPosts(this.postsPerPage, this.currentPage);
+  }
+
+  onLikeClicked(post: Post) {
+    this.postsService.updateLikes(this.authService.getUserId(), post.id);
   }
 
   ngOnDestroy() {

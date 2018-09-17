@@ -2,6 +2,12 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
     <mat-form-field>
+      <mat-select placeholder="Topic" formControlName="topic" name="topic">
+        <mat-option *ngFor="let topic of topics" [value]="topic">{{ topic }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('topic').invalid">Please select a topic for the post.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
       <input
         matInput
         type="text"

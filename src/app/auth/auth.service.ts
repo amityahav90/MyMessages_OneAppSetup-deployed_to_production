@@ -35,10 +35,26 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  createUser(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
-    this.http
-      .post(BACKEND_URL + '/signup', authData)
+  // Getting the username from the server //
+  findUsername(username: string) {
+    const queryParams = `?username=${username}`;
+    return this.http.get<{message: string}>(BACKEND_URL + '/username' + queryParams);
+  }
+  //
+
+  createUser(username: string,
+             firstName: string,
+             lastName: string,
+             email: string,
+             password: string) {
+    const authData = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password
+    };
+    this.http.post(BACKEND_URL + '/signup', authData)
       .subscribe(() => {
         this.router.navigate(['/']);
       }, error => {

@@ -6,6 +6,9 @@ const User = require('../models/user');
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hash
     });
@@ -29,10 +32,10 @@ exports.loginUser = (req, res, next) => {
   User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
     return res.status(401).json({message: 'Authentication failed!'});
-  }
-  fetchedUser = user;
-  // The 'compare' function takes the password from the request, hash it and then compares it with the already exist password in the database //
-  return bcrypt.compare(req.body.password, user.password);
+    }
+    fetchedUser = user;
+    // The 'compare' function takes the password from the request, hash it and then compares it with the already exist password in the database //
+    return bcrypt.compare(req.body.password, user.password);
   })
   .then(result => {
     if (!result) {
@@ -57,3 +60,27 @@ exports.loginUser = (req, res, next) => {
       });
   });
 }
+
+exports.getUsername = (req, res, next) => {
+  const username = req.query.username;
+
+  User.findOne({username: username})
+    .then(user => {
+      if (!user) {
+        return res.status(200).json({
+          message: 'valid'
+        });
+      } else {
+        return res.status(401).json({
+          message: 'invalid'
+        });
+      }
+    })
+    .catch(err => {
+        return res.status(500).json({
+          message: 'Unknown error occured.'
+        });
+    });
+}
+
+

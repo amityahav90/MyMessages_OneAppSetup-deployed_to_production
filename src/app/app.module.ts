@@ -14,13 +14,19 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import {ShortenPipe} from './shorten.pipe';
+import { PostDetailComponent } from './posts/post-detail/post-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     ErrorComponent,
-    HomeComponent
+    HomeComponent,
+    UserProfileComponent,
+    ShortenPipe,
+    PostDetailComponent
   ],
   imports: [
     BrowserModule,

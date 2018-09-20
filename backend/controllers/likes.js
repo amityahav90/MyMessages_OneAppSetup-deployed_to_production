@@ -4,6 +4,7 @@ const Like = require('../models/like');
 exports.updateLikes = (req, res, next) => {
   const userId = req.body.userId;
   const postId = req.body.postId;
+  const postsCount = Post.count();
 
   Like.findOne({userId: userId, postId: postId})
     .then(result => {
@@ -14,7 +15,8 @@ exports.updateLikes = (req, res, next) => {
               Post.update({ _id: postId }, { $inc: { likes: -1 } })
                 .then(updatedPost => {
                   res.status(200).json({
-                    message: 'Unliked successfully.'
+                    message: 'unlike',
+                    postsAmount: +postsCount
                   });
                 });
             } else {
@@ -35,7 +37,8 @@ exports.updateLikes = (req, res, next) => {
             Post.update({ _id: postId }, { $inc: {likes: 1} })
               .then(updatedPost => {
                 res.status(200).json({
-                  message: 'New like added successfully.'
+                  message: 'like',
+                  postsAmount: +postsCount
                 });
               });
           })

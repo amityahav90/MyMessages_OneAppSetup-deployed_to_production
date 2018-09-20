@@ -6,6 +6,7 @@ import {Params, Router} from '@angular/router';
 
 import { Post } from './post.model';
 import { environment } from '../../environments/environment';
+import index from '@angular/cli/lib/cli';
 
 const BACKEND_URL = environment.apiUrl + '/posts';
 
@@ -13,6 +14,7 @@ const BACKEND_URL = environment.apiUrl + '/posts';
 export class PostsService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<{posts: Post[], postCount: number}>();
+  private postUpdated = new Subject<Post>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -52,6 +54,11 @@ export class PostsService {
   getPostUpdateListener() {
     return this.postsUpdated.asObservable();
   }
+
+  getSinglePostUpdatedListener() {
+    return this.postUpdated.asObservable();
+  }
+
 
   addPost(topic: string, title: string, content: string, image: File) {
     const postData = new FormData();
@@ -115,9 +122,46 @@ export class PostsService {
 
   updateLikes(userId: string, postId: string) {
     const data = { userId: userId, postId: postId };
-    this.http.post(environment.apiUrl + '/like', data)
+    this.http.post<{ message: string, postsAmount: number }>(environment.apiUrl + '/like', data)
       .subscribe(response => {
-        console.log('Success');
+        const postIndex = this.getPostIndex(postId);
+        if (response.message === 'like') {
+          this.posts[postIndex].likes++;
+        } else if (response.message === 'unlike') {
+          this.posts[postIndex].likes--;
+        }
+        this.postsUpdated.next({posts: [...this.posts], postCount: +response.postsAmount});
+        this.postUpdated.next(this.posts[postIndex]);
       });
+  }
+
+  getPostIndex(postId: string) {
+    let i = 0;
+    for (const post of this.posts) {
+      if (post.id === postId) {
+        return i;
+      }
+      i++;
+    }
+  }
+
+  getAllUserPosts(userId: string) {
+    return this.http.get<{ message: string, posts: Post[] }>(BACKEND_URL + '/user/' + userId)
+      .pipe(map((postData) => {
+        return {
+          posts: postData.posts.map(post => {
+            return {
+              topic: post.topic,
+              title: post.title,
+              content: post.content,
+              likes: post.likes,
+              creator: post.creator,
+              creatorUsername: post.creatorUsername,
+              imagePath: post.imagePath,
+              id: post._id
+            };
+          })
+        };
+      }));
   }
 }

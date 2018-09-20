@@ -5,6 +5,9 @@
     <li *ngIf="userIsAuthenticated">
       <a mat-button routerLink="/create" routerLinkActive="mat-accent" class="new-post">New Post</a>
     </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button [routerLink]="['user', getUserId()]" routerLinkActive="mat-accent" class="new-post">Profile</a>
+    </li>
     <li *ngIf="!userIsAuthenticated">
       <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" class="login">Login</a>
     </li>

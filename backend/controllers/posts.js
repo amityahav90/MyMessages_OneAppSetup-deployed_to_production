@@ -69,7 +69,6 @@ exports.updatePost = (req, res, next) => {
 }
 
 exports.getPosts = (req, res, next) => {
-  // console.log(req.query.filter);
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   let postQuery;
@@ -121,15 +120,34 @@ exports.getPost = (req, res, next) => {
 }
 
 exports.deletePost = (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
-    if (result.n > 0) {
-    res.status(200).json({message: "Deleted Successfully!"});
-  } else {
-    res.status(401).json({message: "Not an authorized user!"});
-  }
-}).catch(error => {
-    res.status(500).json({
-    message: 'Post deletion failed.'
-  });
-});
+  Post.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json({message: "Deleted Successfully!"});
+      } else {
+        res.status(401).json({message: "Not an authorized user!"});
+      }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Post deletion failed.'
+      });
+    });
 }
+
+exports.getAllUserPosts = (req, res, next) => {
+  const userId = req.params.uid;
+  Post.find({creator: userId})
+    .then(posts => {
+      res.status(200).json({
+        message: 'Fetched posts succesfully',
+        posts: posts
+      });
+    })
+    .catch(error => {
+      res.status(401).json({
+        message: 'Failed to fetch posts'
+      });
+    });
+}
+
+

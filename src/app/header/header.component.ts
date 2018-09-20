@@ -10,6 +10,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
+  userId: string;
   userIsAuthenticated = false;
 
   constructor(private authService: AuthService) {}
@@ -21,6 +22,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
+  }
+
+  getUserId() {
+    return localStorage.getItem('userId');
   }
 
   onLogout() {

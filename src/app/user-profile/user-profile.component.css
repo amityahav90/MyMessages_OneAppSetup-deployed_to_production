@@ -95,31 +95,16 @@ img {
 /*Cards*/
 .example-card {
   max-width: 250px;
-  margin-right: auto;
-  margin-left: auto;
-  margin-bottom: auto;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  margin-bottom: 2rem;
 }
 
 .row {
   margin: 1rem;
 }
+
+.actions {
+  text-align: -webkit-right;
+}
 /*End of cards*/
-
-/*mat-grid-tile {*/
-  /*background: lightblue;*/
-/*}*/
-
-/*.example-card {*/
-  /*max-width: 300px;*/
-/*}*/
-
-/*.main-pic {*/
-  /*width: 95%;*/
-  /*margin-left: 3%;*/
-  /*margin-top: 15px;*/
-/*}*/
-
-/*.example-header-image {*/
-  /*background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');*/
-  /*background-size: cover;*/
-/*}*/

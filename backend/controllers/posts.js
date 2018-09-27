@@ -138,6 +138,18 @@ exports.getAllUserPosts = (req, res, next) => {
   const userId = req.params.uid;
   Post.find({creator: userId})
     .then(posts => {
+      posts = posts.map(currentPost => {
+        return {
+          id: currentPost._id,
+          topic: currentPost.topic,
+          title: currentPost.title,
+          content: currentPost.content,
+          imagePath: currentPost.imagePath,
+          creator: currentPost.creator,
+          creatorUsername: currentPost.creatorUsername,
+          likes: currentPost.likes
+        };
+      });
       res.status(200).json({
         message: 'Fetched posts succesfully',
         posts: posts

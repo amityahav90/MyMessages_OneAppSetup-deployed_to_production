@@ -158,7 +158,7 @@ export class PostsService {
               creator: post.creator,
               creatorUsername: post.creatorUsername,
               imagePath: post.imagePath,
-              id: post._id
+              id: post.id
             };
           })
         };

@@ -14,6 +14,7 @@ import {map} from 'rxjs/internal/operators';
 export class UserProfileComponent implements OnInit, OnDestroy {
   userId: string;
   userPosts: Post[];
+  editMode = false;
   private postsSubscription: Subscription;
 
   constructor(
@@ -31,6 +32,20 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   onGoToPost(postId: string) {
     this.router.navigate(['/post/' + postId]);
+  }
+
+  onEditProfile() {
+    this.editMode = !this.editMode;
+  }
+
+  onDelete(postId: string) {
+    this.postService.deletePost(postId)
+      .subscribe(() => {
+        this.postService.getAllUserPosts(this.userId)
+          .subscribe(transformedPost => {
+            this.userPosts = transformedPost.posts;
+          });
+      });
   }
 
   ngOnDestroy() {

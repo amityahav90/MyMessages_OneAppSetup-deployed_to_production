@@ -19,7 +19,7 @@
         id="firstName"
         placeholder="First Name"
         formControlName="firstName">
-      <!--<mat-error *ngIf="firstNameInput.invalid">Please enter a valid first name.</mat-error>-->
+      <mat-error *ngIf="signupForm.get('firstName').invalid">Please enter a valid first name.</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input
@@ -29,8 +29,21 @@
         id="lastName"
         placeholder="Last Name"
         formControlName="lastName">
-      <!--<mat-error *ngIf="lastNameInput.invalid">Please enter a valid last name.</mat-error>-->
+      <mat-error *ngIf="signupForm.get('lastName').invalid">Please enter a valid last name.</mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="Date Of Birth"
+        name="picker"
+        formControlName="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="signupForm.get('picker').touched && signupForm.get('picker').invalid">Please enter a valid date.</mat-error>
+    </mat-form-field>
+
     <mat-form-field>
       <input
         matInput
@@ -39,9 +52,10 @@
         id="email"
         placeholder="Email Address"
         formControlName="email">
-      <!--<mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>-->
+      <mat-error *ngIf="signupForm.get('email').invalid">Please enter a valid email.</mat-error>
     </mat-form-field>
-    <div formGroupName="userPassword">
+
+    <div formGroupName="userPassword" *ngIf="getMode() === 'create'">
       <mat-form-field>
         <input
           matInput
@@ -50,7 +64,7 @@
           id="password"
           placeholder="Password"
           formControlName="password">
-        <!--<mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>-->
+        <mat-error *ngIf="signupForm.get('userPassword.password').invalid">Please enter a valid password.</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input
@@ -60,9 +74,53 @@
           id="rePassword"
           placeholder="Re-enter password"
           formControlName="rePassword">
-        <!--<mat-error *ngIf="rePasswordInput.invalid">Please enter a valid password.</mat-error>-->
+        <mat-error *ngIf="signupForm.get('userPassword.rePassword').invalid">Please enter a valid password.</mat-error>
       </mat-form-field>
+      <!--<span *ngIf="signupForm.get('userPassword.password').touched && signupForm.get('userPassword.rePassword').touched">-->
+        <!--<mat-error *ngIf="signupForm.get('userPassword').errors['passwordsNotMatched']">The password and re-enter password fields do not match.</mat-error>-->
+      <!--</span>-->
     </div>
+
+    <mat-form-field>
+      <mat-select placeholder="Select Country" name="userCountry" formControlName="userCountry">
+        <mat-option *ngFor="let country of countries" [value]="country.name">
+          {{ country.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="signupForm.get('userCountry').invalid">Please select a country.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="profession"
+        placeholder="Your Profession"
+        formControlName="profession">
+      <mat-error *ngIf="signupForm.get('profession').invalid">Please enter your profession.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        matInput
+        name="aboutMe"
+        id="aboutMe"
+        placeholder="About Me"
+        formControlName="aboutMe"
+        rows="5">
+      </textarea>
+      <mat-error *ngIf="signupForm.get('aboutMe').invalid">Please enter description about yourself.</mat-error>
+    </mat-form-field>
+
+    <div>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">Browse an image</button>
+      <input type="file" #filePicker (change)="onImagePicked($event)">
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && signupForm.get('userImage').valid">
+      <img [alt]="signupForm.value.title" [src]="imagePreview">
+    </div>
+
+
     <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Signup</button>
   </form>
 </mat-card>

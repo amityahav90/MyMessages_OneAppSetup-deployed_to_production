@@ -6,6 +6,7 @@ import { AngularMaterialModule } from '../angular-material.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthRoutingModule } from './auth-routing.module';
+import {AuthValidators} from './auth.validators';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     FormsModule,
     ReactiveFormsModule,
     AuthRoutingModule
-  ]
+  ],
+  providers: [AuthValidators]
 })
 export class AuthModule {}

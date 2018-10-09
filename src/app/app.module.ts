@@ -17,6 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import {ShortenPipe} from './shorten.pipe';
 import { PostDetailComponent } from './posts/post-detail/post-detail.component';
+import {DatePipe} from '@angular/common';
+import {AuthorizationGuard} from './auth/authorization.guard';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { PostDetailComponent } from './posts/post-detail/post-detail.component';
   ],
   providers: [
     PostsService,
+    DatePipe,
+    AuthorizationGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     ],

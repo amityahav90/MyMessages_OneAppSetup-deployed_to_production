@@ -54,18 +54,19 @@ exports.updatePost = (req, res, next) => {
     imagePath: imagePath,
     creator: req.userData.userId
   });
-  Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then(result => {
-    if (result.n > 0) {
-    res.status(200).json({message: "Update Successfully!"});
-  } else {
-    res.status(401).json({message: "Not an authorized user."});
-  }
-})
-.catch(error => {
-    res.status(500).json({
-    message: 'Post update has failed.'
-  });
-});
+  Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post)
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json({message: "Update Successfully!"});
+      } else {
+        res.status(401).json({message: "Not an authorized user."});
+      }
+    })
+    .catch(error => {
+        res.status(500).json({
+        message: 'Post update has failed.'
+      });
+    });
 }
 
 exports.getPosts = (req, res, next) => {

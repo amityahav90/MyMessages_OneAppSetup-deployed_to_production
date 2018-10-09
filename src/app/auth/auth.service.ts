@@ -6,6 +6,8 @@ import { AuthData } from './auth-data.model';
 import {Router} from '@angular/router';
 
 import { environment } from '../../environments/environment';
+import {User} from '../user-profile/user.model';
+import {map} from 'rxjs/internal/operators';
 
 const BACKEND_URL = environment.apiUrl + '/user';
 
@@ -38,23 +40,82 @@ export class AuthService {
   // Getting the username from the server //
   findUsername(username: string) {
     const queryParams = `?username=${username}`;
-    return this.http.get<{message: string}>(BACKEND_URL + '/username' + queryParams);
+    return this.http.get<{message: string, userId: string}>(BACKEND_URL + '/username' + queryParams);
   }
   //
+
+  getUserById(userId: string) {
+    return this.http.get<{message: string, user: User}>(BACKEND_URL + '/' + userId)
+      .pipe(map(userData => {
+        return {
+          _id: userData.user._id,
+          username: userData.user.username,
+          firstName: userData.user.firstName,
+          lastName: userData.user.lastName,
+          dateOfBirth: userData.user.dateOfBirth,
+          email: userData.user.email,
+          aboutMe: userData.user.aboutMe,
+          userImage: userData.user.userImage,
+          userCountry: userData.user.userCountry,
+          profession: userData.user.profession,
+          memberSince: userData.user.memberSince
+        };
+      }));
+  }
 
   createUser(username: string,
              firstName: string,
              lastName: string,
+             dateOfBirth: string,
              email: string,
-             password: string) {
+             password: string,
+             aboutMe: string,
+             userImage: File,
+             userCountry: string,
+             profession: string) {
+    const authData = new FormData();
+    authData.append('username', username);
+    authData.append('firstName', firstName);
+    authData.append('lastName', lastName);
+    authData.append('dateOfBirth', dateOfBirth);
+    authData.append('email', email);
+    authData.append('password', password);
+    authData.append('aboutMe', aboutMe);
+    authData.append('image', userImage, username);
+    authData.append('userCountry', userCountry);
+    authData.append('profession', profession);
+
+    this.http.post(BACKEND_URL + '/signup', authData)
+      .subscribe(() => {
+        this.router.navigate(['/']);
+      }, error => {
+        this.authStatusListener.next(false);
+      });
+  }
+
+  updateUser(username: string,
+             firstName: string,
+             lastName: string,
+             dateOfBirth: string,
+             email: string,
+             aboutMe: string,
+             userImage: File,
+             userCountry: string,
+             profession: string,
+             userId: string) {
     const authData = {
       username: username,
       firstName: firstName,
       lastName: lastName,
+      dateOfBirth: dateOfBirth,
       email: email,
-      password: password
+      aboutMe: aboutMe,
+      userImage: userImage,
+      userCountry: userCountry,
+      profession: profession
     };
-    this.http.post(BACKEND_URL + '/signup', authData)
+
+    this.http.put(BACKEND_URL + '/' + userId, authData)
       .subscribe(() => {
         this.router.navigate(['/']);
       }, error => {
@@ -129,7 +190,7 @@ export class AuthService {
     localStorage.removeItem('userId');
   }
 
-  private getAuthData() {
+  getAuthData() {
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
     const userId = localStorage.getItem('userId');

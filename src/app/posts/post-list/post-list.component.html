@@ -43,7 +43,7 @@
               <img [src]="post.imagePath" [alt]="post.title">
             </div>
             <span>
-              <h5 class="createdBy">Created by: {{ post.creatorUsername }}</h5>
+              <h5 class="createdBy">Created by: <a [routerLink]="['../user', post.creator]">{{ post.creatorUsername }}</a></h5>
               <button
                 class="like-btn"
                 mat-icon-button

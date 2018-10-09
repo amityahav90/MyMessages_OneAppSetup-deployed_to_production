@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Orbitron:500');
+
 :root {
   font-size: 10px;
 }
@@ -55,6 +58,7 @@ img {
 .profile-image img {
   border-radius: 50%;
   margin-left: auto;
+  max-width:75%;
 }
 
 .profile-user-settings,
@@ -108,3 +112,28 @@ img {
   text-align: -webkit-right;
 }
 /*End of cards*/
+
+/* About me styles */
+
+.about-me {
+  display: block;
+  text-align: center;
+}
+
+/*.user-name {*/
+  /*text-align: center;*/
+  /*font-family: 'Orbitron', sans-serif;*/
+/*}*/
+
+.header {
+  font-family: 'Fjalla One', sans-serif;
+  margin-right: 10px;
+}
+
+.user-name {
+  display: inline-block;
+  margin-left: 45%;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+}
+/* End */

@@ -1,20 +1,16 @@
-<div class="container">
+<div class="container" *ngIf="user">
   <div class="profile">
     <div class="profile-image">
-      <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+      <img src="{{ user.userImage }}">
     </div>
     <div class="profile-user-settings">
-      <h1 class="profile-user-name">janedoe_</h1>
-      <button
-        mat-raised-button
-        class="profile-edit-btn"
-        color="primary"
-        (click)="onEditProfile()">
-        Edit Profile
-      </button>
+      <h1 class="profile-user-name">{{ user.username }}</h1>
     </div>
     <div class="profile-bio">
-      <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+      <p>
+        <span class="profile-real-name">{{ user.firstName }} {{ user.lastName }}, </span>
+        a {{ user.profession }}, from {{ user.userCountry }}.
+      </p>
     </div>
   </div>
   <!-- End of profile section -->
@@ -32,7 +28,7 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="onGoToPost(post.id)">Go To Post</button>
-            <div class="actions" *ngIf="editMode">
+            <div class="actions" *ngIf="user && currentUserId === user._id">
               <button mat-button color="primary" [routerLink]="['/edit', post.id]">Edit</button>
               <button mat-button color="warn" (click)="onDelete(post.id)">Delete</button>
             </div>
@@ -40,6 +36,26 @@
         </mat-card>
       </div>
     </mat-tab>
-    <mat-tab label="About Me"> Content 2 </mat-tab>
+    <mat-tab label="About Me" class="about-me" *ngIf="user">
+      <span class="username-edit">
+        <h1 class="user-name">{{ user.username }}
+          <a
+            *ngIf="currentUserId === user._id"
+            [routerLink]="['../../auth/signup/edit', user._id]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+        </h1>
+      </span>
+      <mat-list role="list">
+        <mat-list-item role="listitem"><span class="header">First Name: </span> {{ user.firstName }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Last Name: </span>{{ user.lastName }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Country: </span>{{ user.userCountry }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Profession: </span>{{ user.profession }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Born: </span>{{ user.dateOfBirth }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Email: </span>{{ user.email }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">Member Since: </span>{{ user.memberSince | date }}</mat-list-item>
+        <mat-list-item role="listitem"><span class="header">About Me: </span>{{ user.aboutMe }}</mat-list-item>
+      </mat-list>
+    </mat-tab>
   </mat-tab-group>
 </div>

@@ -41,7 +41,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
       topic: new FormControl(null, {validators: [Validators.required]}),
       title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       content: new FormControl(null, {validators: [Validators.required]}),
-      image: new FormControl(null, {validators: [Validators.required], asyncValidators:[mimeType]})
+      image: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
 
     this.route.paramMap.subscribe(

@@ -13,7 +13,6 @@ import {forEach} from '@angular/router/src/utils/collection';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  // topics: string[] = ['Show All', 'Sport', 'Food', 'Gaming', 'Shopping', 'Vacations', 'Technology', 'Other'];
   topics: any[] = [
     { value: 'Sport', viewValue: 'Sport' },
     { value: 'Food', viewValue: 'Food' },

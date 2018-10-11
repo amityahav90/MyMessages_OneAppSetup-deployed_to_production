@@ -19,6 +19,7 @@ import {ShortenPipe} from './shorten.pipe';
 import { PostDetailComponent } from './posts/post-detail/post-detail.component';
 import {DatePipe} from '@angular/common';
 import {AuthorizationGuard} from './auth/authorization.guard';
+import {CommentsService} from './posts/post-list/post-item/comments.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {AuthorizationGuard} from './auth/authorization.guard';
   ],
   providers: [
     PostsService,
+    CommentsService,
     DatePipe,
     AuthorizationGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

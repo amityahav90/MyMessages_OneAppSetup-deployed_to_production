@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 const likesRoutes = require('./routes/likes');
+const commentsRoutes = require('./routes/comments');
 const app = express();
 
 mongoose.connect(
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/like", likesRoutes);
+app.use("/api/comments", commentsRoutes);
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'angular', 'index.html'));
 });

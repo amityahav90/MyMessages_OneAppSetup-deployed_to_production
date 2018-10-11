@@ -1,0 +1,94 @@
+<div class="container contained">
+  <div class="col-sm-12">
+    <div class="panel panel-white post">
+      <div class="post-comments">
+
+        <!--Add commentInput input and button-->
+        <div class="input-group">
+          <input
+            [disabled]="!userIsAuthenticated"
+            class="form-control comment-input"
+            placeholder="Add a comment..."
+            type="text"
+            [(ngModel)]="commentInput">
+          <span class="input-group-addon">
+            <button
+              [disabled]="!userIsAuthenticated"
+              color="primary"
+              type="button"
+              class="add-comment-btn"
+              mat-mini-fab
+              (click)="onAddComment()">
+              <i class="fa fa-check"></i>
+            </button>
+          </span>
+        </div>
+        <div *ngIf="!userIsAuthenticated" class="login-msg">Login to write a comment. <a [routerLink]="['../auth/login']">Login</a></div>
+        <!--End-->
+
+        <ul class="comments-list">
+          <li class="comment" *ngFor="let comment of comments">
+            <a class="pull-left" [routerLink]="['../user', comment.authorId]">
+              <img class="avatar" src="{{ comment.authorImage }}" alt="avatar">
+            </a>
+            <div class="comment-body">
+              <div class="comment-heading">
+                <h4 class="user">{{ comment.username }}</h4>
+              </div>
+              <p *ngIf="!editMode || comment._id !== currentEditedComment">{{ comment.content }}</p>
+              <div *ngIf="editMode && comment._id === currentEditedComment" class="edit-comment input-group">
+                <input
+                  type="text"
+                  class="form-control comment-input"
+                  value="{{ comment.content }}"
+                  #editedComment>
+                <button
+                  [disabled]="!userIsAuthenticated"
+                  color="primary"
+                  type="button"
+                  class="add-comment-btn"
+                  mat-mini-fab
+                  (click)="onSaveCommentChanges(comment._id, editedComment)">
+                  <i class="fa fa-check"></i>
+                </button>
+              </div>
+
+              <!--Comment actions buttons-->
+              <div class="task-panel">
+                <span class="like-btn">
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    [disabled]="!userIsAuthenticated"
+                    (click)="onLikeClicked(comment._id)">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> {{ comment.likes }}
+                  </button>
+                </span>
+                <span class="edit-btn" *ngIf="comment.authorId === userId">
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    [disabled]="!userIsAuthenticated"
+                    (click)="onEditComment(comment._id)">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                </span>
+                <span class="delete-btn" *ngIf="comment.authorId === userId">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    [disabled]="!userIsAuthenticated"
+                    (click)="onDeleteComment(comment._id)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+              <!--End-->
+
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

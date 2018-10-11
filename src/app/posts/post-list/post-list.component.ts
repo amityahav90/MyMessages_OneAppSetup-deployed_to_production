@@ -5,7 +5,6 @@ import { PageEvent } from '@angular/material';
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
 import { AuthService } from '../../auth/auth.service';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-post-list',

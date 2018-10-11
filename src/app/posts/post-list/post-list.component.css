@@ -98,3 +98,7 @@ mat-paginator {
   display: inline-block;
   float: right;
 }
+
+.comments {
+  display: block;
+}

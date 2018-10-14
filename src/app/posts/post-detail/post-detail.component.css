@@ -39,3 +39,8 @@ mat-expansion-panel {
 .content {
   margin-top: 1rem;
 }
+
+mat-action-row {
+  display: contents;
+  width: max-content;
+}

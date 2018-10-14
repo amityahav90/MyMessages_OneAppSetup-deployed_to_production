@@ -20,6 +20,7 @@ import { PostDetailComponent } from './posts/post-detail/post-detail.component';
 import {DatePipe} from '@angular/common';
 import {AuthorizationGuard} from './auth/authorization.guard';
 import {CommentsService} from './posts/post-list/post-item/comments.service';
+import {PostItemComponent} from './posts/post-list/post-item/post-item.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,7 @@ import {CommentsService} from './posts/post-list/post-item/comments.service';
     ErrorComponent,
     HomeComponent,
     UserProfileComponent,
-    ShortenPipe,
-    PostDetailComponent
+    ShortenPipe
   ],
   imports: [
     BrowserModule,

@@ -7,12 +7,14 @@ import { AngularMaterialModule } from '../angular-material.module';
 import { PostCreateComponent } from './post-create/post-create.component';
 import { PostListComponent } from './post-list/post-list.component';
 import {PostItemComponent} from './post-list/post-item/post-item.component';
+import {PostDetailComponent} from './post-detail/post-detail.component';
 
 @NgModule({
   declarations: [
     PostCreateComponent,
     PostListComponent,
-    PostItemComponent
+    PostItemComponent,
+    PostDetailComponent
   ],
   imports: [
     CommonModule,

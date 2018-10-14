@@ -1,7 +1,10 @@
 <mat-toolbar color="primary">
-  <span><a routerLink="/" class="logo">MyMessages</a></span>
+  <span><a routerLink="/" class="logo"><img src="../../assets/logo.png" height="65" width="65"/></a></span>
   <span class="spacer"></span>
   <ul>
+    <li>
+      <a mat-button routerLink="/posts" routerLinkActive="mat-accent" class="posts">All Posts</a>
+    </li>
     <li *ngIf="userIsAuthenticated">
       <a mat-button routerLink="/create" routerLinkActive="mat-accent" class="new-post">New Post</a>
     </li>

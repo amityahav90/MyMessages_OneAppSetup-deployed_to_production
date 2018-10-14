@@ -17,6 +17,11 @@
       <i class="fa fa-thumbs-up" aria-hidden="true"></i> {{ post.likes }}
     </button>
   </span>
-    <p>{{ post.content }}</p>
+  <p>{{ post.content }}</p>
+
+  <mat-action-row class="comments">
+    <app-post-item [post]="post"></app-post-item>
+  </mat-action-row>
+
   </mat-expansion-panel>
 </div>
